@@ -256,9 +256,9 @@ func (a *Peer2PeerAccount) Update(ctx context.Context, proc Process, bank *Bank,
 
 // Append appends a transaction to the account
 func (a *Peer2PeerAccount) Append(tx Transaction) error {
-	// log.Println(a.Name, tx)
 	// log.Println(date.Format("2006/01/02"), item.Description())
 	if tx.Type == Deposit {
+		log.Println(a.Name, tx)
 		a.Ledger = append(a.Ledger, tx)
 		a.AccountValue += tx.Amount
 		a.AvailableCash += tx.Amount

@@ -29,13 +29,16 @@ func main() {
 	bank := Bank{
 		Accounts: map[string]Account{
 			"Checking":   NewBankAccount("Checking", startDate, Dollars(500)),
-			"Investment": NewPeer2PeerAccount("Investment", startDate, Dollars(8000+40000+30000+2e6), Dollars(25)),
+			"Investment": NewPeer2PeerAccount("Investment", startDate, Dollars(8000+40000+30000), Dollars(25)),
+			"Mortgage":   NewLoan("Mortgage", Dollars(173600), 4.875, 30, 204),
 		},
 		LineItems: []LineItem{
 			&MonthlyTransaction{Account: "Checking", Name: "Salary", Amount: Dollars(7000), Type: Deposit, DayOfMonth: 1, StartDate: startDate, EndDate: endDate},
 			&MonthlyTransaction{Account: "Checking", Name: "Salary", Amount: Dollars(7000), Type: Deposit, DayOfMonth: 15, StartDate: startDate, EndDate: endDate},
 			&MonthlyTransaction{Account: "Checking", Name: "BCBS", Amount: Dollars(630), Type: Withdrawal, DayOfMonth: 17, StartDate: startDate, EndDate: endDate},
-			&MonthlyTransaction{Account: "Checking", Name: "Mortgage", Amount: Dollars(1154), Type: Withdrawal, DayOfMonth: 2, StartDate: startDate, EndDate: endDate},
+			// &MonthlyTransaction{Account: "Checking", Name: "Mortgage", Amount: Dollars(1154), Type: Withdrawal, DayOfMonth: 2, StartDate: startDate, EndDate: endDate},
+			&LoanPayment{From: "Checking", To: "Mortgage", DayOfMonth: 2},
+
 			&MonthlyTransaction{Account: "Checking", Name: "Water", Amount: Dollars(60), Type: Withdrawal, DayOfMonth: 20, StartDate: startDate, EndDate: endDate},
 			&MonthlyTransaction{Account: "Checking", Name: "Electricity", Amount: Dollars(115), Type: Withdrawal, DayOfMonth: 10, StartDate: startDate, EndDate: endDate},
 			&MonthlyTransaction{Account: "Checking", Name: "Internet", Amount: Dollars(40), Type: Withdrawal, DayOfMonth: 12, StartDate: startDate, EndDate: endDate},
@@ -49,6 +52,7 @@ func main() {
 				time.Saturday:  .50,
 				time.Sunday:    .75,
 			}},
+			&LoanPayment{From: "Checking", To: "Mortgage"},
 			&MonthlyTransfer{From: "Checking", To: "Investment", Amount: Dollars(2000), DayOfMonth: 2, StartDate: startDate, EndDate: endDate},
 			&MonthlyTransfer{From: "Checking", To: "Investment", Amount: Dollars(2000), DayOfMonth: 17, StartDate: startDate, EndDate: endDate},
 		},
@@ -86,5 +90,6 @@ func main() {
 	fmt.Println()
 	fmt.Println(bank.Accounts["Checking"])
 	fmt.Println(bank.Accounts["Investment"])
+	fmt.Println(bank.Accounts["Mortgage"])
 	fmt.Println("\nExiting...")
 }
