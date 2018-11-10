@@ -42,6 +42,11 @@ func (u USD) String() string {
 	return DefaultFormatter.Sprintf("$%d.%02d", u/100, u%100)
 }
 
+// Float64 returns a float64 for the value.
+func (u USD) Float64() float64 {
+	return float64(u) / 100.
+}
+
 func Dollars(d USD) USD {
 	return d * 100
 }
